@@ -1,6 +1,7 @@
 package org.personal.springfluxdemo.web1.controller;
 
 import org.personal.springfluxdemo.web1.entity.User;
+import org.personal.springfluxdemo.web1.entity.Users;
 import org.personal.springfluxdemo.web1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,5 +35,10 @@ public class UserController
     public Mono<Void> saveUser(@RequestBody User user)
     {
         return this.userService.saveUserInfo(Mono.just(user));
+    }
+
+    @PostMapping("/users")
+    public Mono<Void> saveUsers(@RequestBody Users users) {
+        return this.userService.saveUsers(users.getUserList());
     }
 }

@@ -1,6 +1,7 @@
 package org.personal.springfluxdemo.web1.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.personal.springfluxdemo.web1.entity.User;
 import org.springframework.stereotype.Service;
@@ -36,8 +37,13 @@ public class UserServiceImpl implements UserService
     @Override
     public Mono<Void> saveUserInfo(Mono<User> userMono)
     {
-        return userMono.doOnNext(person -> {
-            users.put(users.size()+1, person);
-        }).then(Mono.empty());
+        userMono.subscribe(user -> users.put(users.size()+1, user));
+        return Mono.empty();
+    }
+
+    @Override
+    public Mono<Void> saveUsers(List<User> userList) {
+        Flux.fromIterable(userList).subscribe(user -> saveUserInfo(Mono.just(user)));
+        return Mono.empty();
     }
 }

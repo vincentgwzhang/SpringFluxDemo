@@ -5,34 +5,20 @@ import java.util.concurrent.Flow;
 public class Main {
 
     public static void main(String[] args) {
-        Flow.Publisher<String> publisher = subscriber -> {
-            subscriber.onNext("1111"); // 1
-            subscriber.onNext("2222");
-            subscriber.onError(new RuntimeException("Runtime exception")); // 2
-            //  subscriber.onComplete();
+        Flow.Publisher<Book> publisher = subscriber -> {
+            subscriber.onNext(new Book("name 1", "Vincent"));
+            subscriber.onNext(new Book("name 2", "Yan yan"));
+            subscriber.onError(new RuntimeException("Runtime exception"));
+            subscriber.onNext(new Book("name 3", "Weimianren"));
+            subscriber.onComplete();
+
+            /*
+             * 尽管已经执行 subscriber.onComplete();
+             * 但是没有做成错误
+             */
+            subscriber.onNext(new Book("name 4", "Vincent Zhang"));
         };
 
-
-        publisher.subscribe(new Flow.Subscriber<>() {
-            @Override
-            public void onSubscribe(Flow.Subscription subscription) {
-                subscription.cancel();
-            }
-
-            @Override
-            public void onNext(String item) {
-                System.out.println(item);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                System.out.println("onError triggered");
-            }
-
-            @Override
-            public void onComplete() {
-                System.out.println("publish complete");
-            }
-        });
+        publisher.subscribe(new SubscriberImpl());
     }
 }

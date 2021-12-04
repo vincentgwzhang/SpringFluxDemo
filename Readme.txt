@@ -22,3 +22,13 @@ SpringWebflux 基于函数式编程模型 (函数式)
 
 请求和相应不再是 ServletRequest 和 ServletRsponse
 而是 ServerRequest 和 ServerResponse
+
+
+******************************************************************************************
+HandlerResultHandler
+
+WebHandler
+
+HandlerFunction
+RouterFunction
+******************************************************************************************
