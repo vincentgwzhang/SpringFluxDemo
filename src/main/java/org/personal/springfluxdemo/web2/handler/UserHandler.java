@@ -2,7 +2,6 @@ package org.personal.springfluxdemo.web2.handler;
 
 import org.personal.springfluxdemo.web1.entity.User;
 import org.personal.springfluxdemo.web1.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -11,10 +10,11 @@ import reactor.core.publisher.Mono;
 
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
+// 这其实相当与 controller
 public class UserHandler
 {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserHandler(UserService userService)
     {
@@ -25,7 +25,7 @@ public class UserHandler
     {
         final Mono<ServerResponse> notFound = ServerResponse.notFound().build();
 
-        final Integer id = Integer.parseInt(request.pathVariable("id"));
+        final int id = Integer.parseInt(request.pathVariable("id"));
         final Mono<User> userMono = this.userService.getUserById(id);
         return userMono.flatMap(_user -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(fromValue(_user))).switchIfEmpty(notFound);
     }
