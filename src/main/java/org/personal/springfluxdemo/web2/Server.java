@@ -23,7 +23,19 @@ public class Server
     {
         UserHandler handler = new UserHandler(new UserServiceImpl());
 
-        return RouterFunctions.route(GET("/user/{id}").and(accept(MediaType.APPLICATION_JSON)), handler::getUserByID).andRoute(GET("/user").and(accept(MediaType.APPLICATION_JSON)), handler::getAllUsers).andRoute(POST("/user").and(accept(MediaType.APPLICATION_JSON)), handler::saveUser);
+        return RouterFunctions
+                    .route(
+                        GET("/user/{id}").and(accept(MediaType.APPLICATION_JSON)),
+                        handler::getUserByID
+                    )
+                    .andRoute(
+                        GET("/user").and(accept(MediaType.APPLICATION_JSON)),
+                        handler::getAllUsers
+                    )
+                    .andRoute(
+                        POST("/user").and(accept(MediaType.APPLICATION_JSON)),
+                        handler::saveUser
+                    );
     }
 
     public void createReactorServer()
